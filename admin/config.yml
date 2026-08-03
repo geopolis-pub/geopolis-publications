@@ -5,30 +5,29 @@ backend:
   base_url: https://geopolis.pages.dev
   auth_endpoint: /api/auth
 
-media_folder: "public/images/uploads"
-public_folder: "/images/uploads"
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
 collections:
   - name: "articles"
   label: "Publications"
   folder: "content/articles"
   create: true
-  slug: "{{slug}}"
+  slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+  summary: "{{title}} — {{author}} ({{category}})"
 
   fields:
+
+    # -----------------------------
+    # BASIC INFORMATION
+    # -----------------------------
     - { label: "Title", name: "title", widget: "string" }
 
     - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
 
-    - { label: "Abstract", name: "abstract", widget: "text", required: false }
+    - { label: "Abstract", name: "abstract", widget: "text" }
 
-    - { label: "Author", name: "author", widget: "string", default: "GEOPOLIS Editorial Collective" }
-
-    - { label: "Affiliation", name: "affiliation", widget: "string", required: false }
-
-    - { label: "Date", name: "date", widget: "datetime" }
-
-    - label: "Category"
+    - label: "Publication Type"
       name: "category"
       widget: "select"
       options:
@@ -40,17 +39,104 @@ collections:
         - Conference Papers
         - Dissertations
 
+    - { label: "Discipline", name: "discipline", widget: "string", required: false }
+
+    - { label: "Language", name: "language", widget: "string", default: "English" }
+
     - { label: "Keywords", name: "keywords", widget: "list", required: false }
 
+    - { label: "Publication Date", name: "date", widget: "datetime" }
+
+    # -----------------------------
+    # AUTHORS
+    # -----------------------------
+    - label: "Authors"
+      name: "authors"
+      widget: "list"
+      summary: "{{fields.name}}"
+      fields:
+
+        - { label: "Full Name", name: "name", widget: "string" }
+
+        - { label: "Institution", name: "institution", widget: "string", required: false }
+
+        - { label: "Department", name: "department", widget: "string", required: false }
+
+        - { label: "Country", name: "country", widget: "string", required: false }
+
+        - { label: "Email", name: "email", widget: "string", required: false }
+
+        - { label: "ORCID", name: "orcid", widget: "string", required: false }
+
+        - { label: "Biography", name: "bio", widget: "text", required: false }
+
+    # -----------------------------
+    # JOURNAL DETAILS
+    # -----------------------------
+    - { label: "DOI", name: "doi", widget: "string", required: false }
+
+    - { label: "Volume", name: "volume", widget: "string", required: false }
+
+    - { label: "Issue", name: "issue", widget: "string", required: false }
+
+    - { label: "Pages", name: "pages", widget: "string", required: false }
+
+    - { label: "ISSN", name: "issn", widget: "string", required: false }
+
+    # -----------------------------
+    # FEATURED IMAGE
+    # -----------------------------
     - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
 
-    - { label: "Featured Image Caption", name: "featured_image_caption", widget: "string", required: false }
+    - { label: "Image Caption", name: "featured_image_caption", widget: "string", required: false }
 
+    - { label: "Image Credit", name: "image_credit", widget: "string", required: false }
+
+    # -----------------------------
+    # FILES
+    # -----------------------------
     - { label: "PDF File", name: "pdf", widget: "file", required: false }
 
+    - label: "Supplementary Files"
+      name: "supplementary_files"
+      widget: "list"
+      required: false
+      field:
+        { label: "File", name: "file", widget: "file" }
+
+    # -----------------------------
+    # ARTICLE CONTENT
+    # -----------------------------
+    - label: "Article"
+      name: "body"
+      widget: "markdown"
+
+    # -----------------------------
+    # REFERENCES
+    # -----------------------------
+    - { label: "References", name: "references", widget: "text", required: false }
+
+    - { label: "Footnotes", name: "footnotes", widget: "text", required: false }
+
+    - { label: "Acknowledgements", name: "acknowledgements", widget: "text", required: false }
+
+    # -----------------------------
+    # SEO
+    # -----------------------------
+    - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+
+    - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+
+    - { label: "Canonical URL", name: "canonical_url", widget: "string", required: false }
+
+    # -----------------------------
+    # PLATFORM
+    # -----------------------------
     - { label: "Featured Article", name: "featured", widget: "boolean", default: false }
 
-    - { label: "Body", name: "body", widget: "markdown" }
+    - { label: "Draft", name: "draft", widget: "boolean", default: false }
+
+    - { label: "Reading Time", name: "reading_time", widget: "string", required: false }
 
 - name: "team"
   label: "Team Members"
