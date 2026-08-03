@@ -9,13 +9,9 @@ publish_mode: editorial_workflow
 
 site_url: https://geopolis.pages.dev
 display_url: https://geopolis.pages.dev
-logo_url: /images/logo.png
 
 media_folder: assets/uploads
 public_folder: /assets/uploads
-
-media_library:
-  name: default
 
 slug:
   encoding: ascii
@@ -23,409 +19,550 @@ slug:
   sanitize_replacement: "-"
 
 collections:
-   - name: "articles"
-    label: "Publications"
-    label_singular: "Publication"
-    folder: "content/articles"
+  - name: publications
+    label: Publications
+    label_singular: Publication
+    folder: content/publications
     create: true
-    delete: true
-    preview_path: "journal/{{slug}}"
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}} | {{category}} | {{date}}"
-
+    slug: "{{slug}}"
+    format: frontmatter
+    extension: md
+    sortable_fields: [title, publication_date, status]
+    view_filters:
+      - label: Featured
+        field: featured
+        pattern: "true"
+      - label: Published
+        field: status
+        pattern: Published
     fields:
-
-      # =====================================================
-      # BASIC DETAILS
-      # =====================================================
-
-      - label: "Title"
-        name: "title"
-        widget: "string"
-
-      - label: "Subtitle"
-        name: "subtitle"
-        widget: "string"
-        required: false
-
-      - label: "Abstract"
-        name: "abstract"
-        widget: "text"
-
-      - label: "Publication Type"
-        name: "category"
-        widget: "select"
-        options:
-          - Research Papers
-          - Essays
-          - Book Reviews
-          - Policy Briefs
-          - Working Papers
-          - Conference Papers
-          - Dissertations
-
-      - label: "Discipline"
-        name: "discipline"
-        widget: "select"
-        options:
-          - Political Science
-          - International Relations
-          - Public Administration
-          - Economics
-          - Sociology
-          - History
-          - Geography
-          - Law
-          - Philosophy
-          - Anthropology
-          - Psychology
-          - Environmental Studies
-          - Public Policy
-          - Security Studies
-          - Development Studies
-          - Other
-
-      - label: "Language"
-        name: "language"
-        widget: "select"
+      - { label: Title, name: title, widget: string }
+      - { label: Subtitle, name: subtitle, widget: string, required: false }
+      - { label: Slug, name: slug, widget: string, hint: URL-friendly identifier }
+      - { label: Abstract, name: abstract, widget: text }
+      - label: Publication Type
+        name: publication_type
+        widget: select
+        options: [Journal Article, Book, Policy Brief, Working Paper, Book Review, Conference Paper, Dissertation, Report]
+      - label: Discipline
+        name: discipline
+        widget: select
+        multiple: true
+        options: [Political Science, International Relations, Economics, Law, Sociology, Environmental Studies, History, Public Administration, Gender Studies]
+      - label: Language
+        name: language
+        widget: select
         default: English
-        options:
-          - English
-          - Hindi
-          - French
-          - Spanish
-          - Other
-
-      - label: "Keywords"
-        name: "keywords"
-        widget: "list"
-
-      - label: "Publication Date"
-        name: "date"
-        widget: "datetime"
-
-      - label: "Featured"
-        name: "featured"
-        widget: "boolean"
-        default: false
-
-      - label: "Draft"
-        name: "draft"
-        widget: "boolean"
-        default: false
-
-      # =====================================================
-      # AUTHORS
-      # =====================================================
-
-      - label: "Authors"
-        name: "authors"
-        widget: "list"
+        options: [English, Hindi, French, Spanish, German, Other]
+      - { label: Keywords, name: keywords, widget: list, field: { label: Keyword, name: keyword, widget: string } }
+      - { label: Publication Date, name: publication_date, widget: datetime }
+      - label: Authors
+        name: authors
+        widget: list
+        allow_add: true
+        collapsed: true
         summary: "{{fields.name}}"
-
         fields:
-
-          - label: "Full Name"
-            name: "name"
-            widget: "string"
-
-          - label: "Institution"
-            name: "institution"
-            widget: "string"
-            required: false
-
-          - label: "Department"
-            name: "department"
-            widget: "string"
-            required: false
-
-          - label: "Country"
-            name: "country"
-            widget: "string"
-            required: false
-
-          - label: "Email"
-            name: "email"
-            widget: "string"
-            required: false
-
-          - label: "ORCID"
-            name: "orcid"
-            widget: "string"
-            required: false
-
-          - label: "Biography"
-            name: "bio"
-            widget: "text"
-            required: false
-
-          - label: "Photo"
-            name: "photo"
-            widget: "image"
-            required: false
-
-      # =====================================================
-      # JOURNAL DETAILS
-      # =====================================================
-
-      - label: "DOI"
-        name: "doi"
-        widget: "string"
+          - { label: Name, name: name, widget: string }
+          - { label: Author Photo, name: author_photo, widget: image, required: false }
+          - { label: Institution, name: institution, widget: string, required: false }
+          - { label: Department, name: department, widget: string, required: false }
+          - { label: Country, name: country, widget: string, required: false }
+          - { label: Email, name: email, widget: string, required: false, pattern: ["^.+@.+$", "Invalid email"] }
+          - { label: ORCID, name: orcid, widget: string, required: false }
+          - { label: Biography, name: biography, widget: text, required: false }
+          - { label: Research Interests, name: research_interests, widget: list, required: false, field: { label: Interest, name: interest, widget: string } }
+      - { label: DOI, name: doi, widget: string, required: false }
+      - { label: ISSN, name: issn, widget: string, required: false }
+      - { label: ISBN, name: isbn, widget: string, required: false }
+      - { label: Volume, name: volume, widget: string, required: false }
+      - { label: Issue, name: issue, widget: string, required: false }
+      - { label: Pages, name: pages, widget: string, required: false }
+      - { label: Publisher, name: publisher, widget: string, required: false }
+      - label: License
+        name: license
+        widget: select
+        options: [CC BY 4.0, CC BY-NC 4.0, CC BY-NC-ND 4.0, CC BY-SA 4.0, All Rights Reserved]
+      - { label: Citation, name: citation, widget: text, required: false }
+      - { label: Reading Time, name: reading_time, widget: number, value_type: int, required: false, hint: "Minutes" }
+      - label: Status
+        name: status
+        widget: select
+        options: [Draft, In Review, Published, Archived]
+        default: Draft
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Featured Image, name: featured_image, widget: image, required: false }
+      - { label: Image Caption, name: image_caption, widget: string, required: false }
+      - { label: Image Credit, name: image_credit, widget: string, required: false }
+      - label: Gallery
+        name: gallery
+        widget: list
         required: false
-
-      - label: "ISSN"
-        name: "issn"
-        widget: "string"
+        field: { label: Image, name: image, widget: image }
+      - { label: Alt Text, name: alt_text, widget: string, required: false }
+      - { label: PDF Upload, name: pdf_upload, widget: file, required: false, media_library: { config: { multiple: false } } }
+      - label: Supplementary Files
+        name: supplementary_files
+        widget: list
         required: false
-
-      - label: "Volume"
-        name: "volume"
-        widget: "string"
+        field: { label: File, name: file, widget: file }
+      - { label: Dataset Upload, name: dataset_upload, widget: file, required: false }
+      - { label: Presentation Upload, name: presentation_upload, widget: file, required: false }
+      - label: References
+        name: references
+        widget: list
         required: false
-
-      - label: "Issue"
-        name: "issue"
-        widget: "string"
+        field: { label: Reference, name: reference, widget: text }
+      - label: Footnotes
+        name: footnotes
+        widget: list
         required: false
-
-      - label: "Pages"
-        name: "pages"
-        widget: "string"
-        required: false
-
-      - label: "Reading Time"
-        name: "reading_time"
-        widget: "string"
-        required: false
-
-      # =====================================================
-      # FEATURED MEDIA
-      # =====================================================
-
-      - label: "Featured Image"
-        name: "featured_image"
-        widget: "image"
-        required: false
-
-      - label: "Featured Image Alt Text"
-        name: "featured_image_alt"
-        widget: "string"
-        required: false
-
-      - label: "Image Caption"
-        name: "featured_image_caption"
-        widget: "text"
-        required: false
-
-      - label: "Image Credit"
-        name: "featured_image_credit"
-        widget: "string"
-        required: false
-
-      # =====================================================
-      # GALLERY
-      # =====================================================
-
-      - label: "Gallery"
-        name: "gallery"
-        widget: "list"
-        required: false
-
+        field: { label: Footnote, name: footnote, widget: text }
+      - { label: Acknowledgements, name: acknowledgements, widget: text, required: false }
+      - { label: Funding, name: funding, widget: text, required: false }
+      - { label: Conflict of Interest, name: conflict_of_interest, widget: text, required: false }
+      - { label: Suggested Citation, name: suggested_citation, widget: text, required: false }
+      - label: SEO
+        name: seo
+        widget: object
+        collapsed: true
         fields:
+          - { label: SEO Title, name: seo_title, widget: string, required: false }
+          - { label: SEO Description, name: seo_description, widget: text, required: false }
+          - { label: Canonical URL, name: canonical_url, widget: string, required: false }
+          - { label: Open Graph Image, name: og_image, widget: image, required: false }
+          - { label: Twitter Card Image, name: twitter_image, widget: image, required: false }
+      - label: Body
+        name: body
+        widget: markdown
+        buttons: [bold, italic, strikethrough, code, link, heading-one, heading-two, heading-three, heading-four, quote, code-block, bulleted-list, numbered-list]
+        editor_components: [image, image-upload, table, code-block, blockquote, horizontal-rule, heading, youtube-embed, callout, footnote]
+        minimal: false
 
-          - label: "Image"
-            name: "image"
-            widget: "image"
-
-          - label: "Caption"
-            name: "caption"
-            widget: "string"
-            required: false
-
-          - label: "Credit"
-            name: "credit"
-            widget: "string"
-            required: false
-
-      # =====================================================
-      # PDF & SUPPLEMENTARY FILES
-      # =====================================================
-
-      - label: "Full PDF"
-        name: "pdf"
-        widget: "file"
-        required: false
-
-      - label: "Supplementary Files"
-        name: "supplementary_files"
-        widget: "list"
-        required: false
-
-        fields:
-
-          - label: "Title"
-            name: "title"
-            widget: "string"
-
-          - label: "File"
-            name: "file"
-            widget: "file"
-
-      # =====================================================
-      # ARTICLE CONTENT
-      # =====================================================
-
-      - label: "Article"
-        name: "body"
-        widget: "markdown"
-
-      # =====================================================
-      # REFERENCES
-      # =====================================================
-
-      - label: "References"
-        name: "references"
-        widget: "text"
-        required: false
-
-      - label: "Footnotes"
-        name: "footnotes"
-        widget: "text"
-        required: false
-
-      - label: "Acknowledgements"
-        name: "acknowledgements"
-        widget: "text"
-        required: false
-
-      - label: "Funding"
-        name: "funding"
-        widget: "text"
-        required: false
-
-      - label: "Conflict of Interest"
-        name: "conflict_of_interest"
-        widget: "text"
-        required: false
-
-      # =====================================================
-      # SEO
-      # =====================================================
-
-      - label: "SEO Title"
-        name: "seo_title"
-        widget: "string"
-        required: false
-
-      - label: "SEO Description"
-        name: "seo_description"
-        widget: "text"
-        required: false
-
-      - label: "Canonical URL"
-        name: "canonical_url"
-        widget: "string"
-        required: false
-
-      - label: "Open Graph Image"
-        name: "og_image"
-        widget: "image"
-        required: false
-
-      # =====================================================
-      # INTERNAL
-      # =====================================================
-
-      - label: "Status"
-        name: "status"
-        widget: "select"
-        default: Published
-        options:
-          - Draft
-          - Under Review
-          - Accepted
-          - Published
-          - Archived
-
-  - name: "authors"
-    label: "Authors"
-    folder: "content/authors"
+  - name: authors
+    label: Authors
+    label_singular: Author
+    folder: content/authors
     create: true
     slug: "{{slug}}"
-
+    format: frontmatter
     fields:
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Name, name: name, widget: string }
+      - { label: Institution, name: institution, widget: string, required: false }
+      - { label: Department, name: department, widget: string, required: false }
+      - { label: Country, name: country, widget: string, required: false }
+      - { label: Designation, name: designation, widget: string, required: false }
+      - { label: Email, name: email, widget: string, required: false }
+      - { label: Website, name: website, widget: string, required: false }
+      - { label: Google Scholar, name: google_scholar, widget: string, required: false }
+      - { label: ResearchGate, name: researchgate, widget: string, required: false }
+      - { label: ORCID, name: orcid, widget: string, required: false }
+      - { label: LinkedIn, name: linkedin, widget: string, required: false }
+      - { label: Twitter, name: twitter, widget: string, required: false }
+      - { label: Biography, name: biography, widget: markdown }
+      - label: Research Interests
+        name: research_interests
+        widget: list
+        field: { label: Interest, name: interest, widget: string }
+      - label: Education
+        name: education
+        widget: list
+        required: false
+        fields:
+          - { label: Degree, name: degree, widget: string }
+          - { label: Institution, name: institution, widget: string }
+          - { label: Year, name: year, widget: string, required: false }
+      - label: Awards
+        name: awards
+        widget: list
+        required: false
+        field: { label: Award, name: award, widget: string }
+      - label: Selected Publications
+        name: selected_publications
+        widget: list
+        required: false
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Link, name: link, widget: string, required: false }
 
-      - {label: "Full Name", name: "name", widget: "string"}
-
-      - {label: "Photo", name: "photo", widget: "image", required: false}
-
-      - {label: "Designation", name: "designation", widget: "string", required: false}
-
-      - {label: "Institution", name: "institution", widget: "string"}
-
-      - {label: "Department", name: "department", widget: "string", required: false}
-
-      - {label: "Country", name: "country", widget: "string"}
-
-      - {label: "ORCID", name: "orcid", widget: "string", required: false}
-
-      - {label: "Google Scholar", name: "scholar", widget: "string", required: false}
-
-      - {label: "ResearchGate", name: "researchgate", widget: "string", required: false}
-
-      - {label: "Email", name: "email", widget: "string", required: false}
-
-      - {label: "Research Interests", name: "interests", widget: "list", required: false}
-
-      - {label: "Biography", name: "bio", widget: "markdown"}
-
-  - name: "editorial_board"
-    label: "Editorial Board"
-    folder: "content/editorial-board"
+  - name: editorial_board
+    label: Editorial Board
+    label_singular: Board Member
+    folder: content/editorial-board
     create: true
     slug: "{{slug}}"
-
+    format: frontmatter
     fields:
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Name, name: name, widget: string }
+      - { label: Role, name: role, widget: string }
+      - { label: Institution, name: institution, widget: string, required: false }
+      - { label: Country, name: country, widget: string, required: false }
+      - { label: Biography, name: biography, widget: markdown, required: false }
+      - { label: Email, name: email, widget: string, required: false }
+      - { label: ORCID, name: orcid, widget: string, required: false }
 
-      - {label: "Name", name: "name", widget: "string"}
-
-      - {label: "Role", name: "role", widget: "string"}
-
-      - {label: "Institution", name: "institution", widget: "string"}
-
-      - {label: "Country", name: "country", widget: "string"}
-
-      - {label: "Photo", name: "photo", widget: "image", required: false}
-
-      - {label: "Biography", name: "bio", widget: "markdown", required: false}
-
-  - name: "news"
-    label: "News"
-    folder: "content/news"
+  - name: team
+    label: Team Members
+    label_singular: Team Member
+    folder: content/team
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-
+    slug: "{{slug}}"
+    format: frontmatter
     fields:
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Name, name: name, widget: string }
+      - { label: Role, name: role, widget: string }
+      - { label: Course, name: course, widget: string, required: false }
+      - { label: Year, name: year, widget: string, required: false }
+      - label: Research Interests
+        name: research_interests
+        widget: list
+        required: false
+        field: { label: Interest, name: interest, widget: string }
+      - { label: Bio, name: bio, widget: text, required: false }
+      - label: Social Links
+        name: social_links
+        widget: list
+        required: false
+        fields:
+          - { label: Platform, name: platform, widget: string }
+          - { label: URL, name: url, widget: string }
 
-      - {label: "Title", name: "title", widget: "string"}
+  - name: news
+    label: News
+    label_singular: News Item
+    folder: content/news
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Featured Image, name: featured_image, widget: image, required: false }
+      - { label: Title, name: title, widget: string }
+      - { label: Summary, name: summary, widget: text }
+      - { label: Body, name: body, widget: markdown }
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        field: { label: Tag, name: tag, widget: string }
+      - { label: Date, name: date, widget: datetime }
 
-      - {label: "Date", name: "date", widget: "datetime"}
+  - name: events
+    label: Events
+    label_singular: Event
+    folder: content/events
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Banner, name: banner, widget: image, required: false }
+      - { label: Title, name: title, widget: string }
+      - { label: Venue, name: venue, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Registration Link, name: registration_link, widget: string, required: false }
+      - { label: Description, name: description, widget: markdown }
 
-      - {label: "Featured Image", name: "image", widget: "image", required: false}
+  - name: calls_for_papers
+    label: Calls for Papers
+    label_singular: Call for Papers
+    folder: content/calls-for-papers
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Theme, name: theme, widget: string }
+      - { label: Description, name: description, widget: markdown }
+      - { label: Deadline, name: deadline, widget: datetime }
+      - { label: Banner, name: banner, widget: image, required: false }
+      - { label: Submission Link, name: submission_link, widget: string, required: false }
 
-      - {label: "Summary", name: "summary", widget: "text"}
+  - name: journal_issues
+    label: Journal Issues
+    label_singular: Journal Issue
+    folder: content/journal-issues
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Volume, name: volume, widget: string }
+      - { label: Issue, name: issue, widget: string }
+      - { label: Year, name: year, widget: string }
+      - { label: Cover Image, name: cover_image, widget: image, required: false }
+      - { label: Editorial, name: editorial, widget: markdown, required: false }
+      - label: Articles
+        name: articles
+        widget: relation
+        collection: publications
+        search_fields: [title]
+        value_field: "{{slug}}"
+        display_fields: [title]
+        multiple: true
+        required: false
+      - { label: Full Issue PDF, name: full_issue_pdf, widget: file, required: false }
 
-      - {label: "Body", name: "body", widget: "markdown"}
+  - name: books
+    label: Books
+    label_singular: Book
+    folder: content/books
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Cover, name: cover, widget: image, required: false }
+      - { label: Title, name: title, widget: string }
+      - label: Author
+        name: author
+        widget: list
+        field: { label: Author Name, name: name, widget: string }
+      - { label: Publisher, name: publisher, widget: string }
+      - { label: ISBN, name: isbn, widget: string, required: false }
+      - { label: Year, name: year, widget: string }
+      - { label: Description, name: description, widget: markdown }
+      - { label: Purchase Link, name: purchase_link, widget: string, required: false }
 
-- name: "team"
-  label: "Team Members"
-  folder: "content/team"
-  create: true
-  slug: "{{name}}"
-  fields:
-    - { label: "Name", name: "name", widget: "string" }
-    - { label: "Role", name: "role", widget: "string" }
-    - { label: "Course & Year", name: "course_year", widget: "string", required: false }
-    - { label: "Research Interests", name: "research_interests", widget: "string", required: false }
-    - { label: "Bio", name: "bio", widget: "text", required: false }
-    - { label: "Image", name: "image", widget: "image", required: false }
+  - name: policy_briefs
+    label: Policy Briefs
+    label_singular: Policy Brief
+    folder: content/policy-briefs
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Summary, name: summary, widget: text }
+      - label: Authors
+        name: authors
+        widget: list
+        field: { label: Name, name: name, widget: string }
+      - { label: Publication Date, name: publication_date, widget: datetime }
+      - { label: Featured Image, name: featured_image, widget: image, required: false }
+      - { label: PDF Upload, name: pdf_upload, widget: file, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: working_papers
+    label: Working Papers
+    label_singular: Working Paper
+    folder: content/working-papers
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Abstract, name: abstract, widget: text }
+      - label: Authors
+        name: authors
+        widget: list
+        field: { label: Name, name: name, widget: string }
+      - { label: Publication Date, name: publication_date, widget: datetime }
+      - { label: PDF Upload, name: pdf_upload, widget: file, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: book_reviews
+    label: Book Reviews
+    label_singular: Book Review
+    folder: content/book-reviews
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Book Title, name: book_title, widget: string }
+      - { label: Book Author, name: book_author, widget: string }
+      - { label: Reviewer, name: reviewer, widget: string }
+      - { label: Rating, name: rating, widget: number, required: false, min: 1, max: 5 }
+      - { label: Publication Date, name: publication_date, widget: datetime }
+      - { label: Cover Image, name: cover_image, widget: image, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: conference_papers
+    label: Conference Papers
+    label_singular: Conference Paper
+    folder: content/conference-papers
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Conference Name, name: conference_name, widget: string }
+      - { label: Conference Date, name: conference_date, widget: datetime }
+      - label: Authors
+        name: authors
+        widget: list
+        field: { label: Name, name: name, widget: string }
+      - { label: Abstract, name: abstract, widget: text }
+      - { label: PDF Upload, name: pdf_upload, widget: file, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: dissertations
+    label: Dissertations
+    label_singular: Dissertation
+    folder: content/dissertations
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Author, name: author, widget: string }
+      - { label: Institution, name: institution, widget: string }
+      - { label: Supervisor, name: supervisor, widget: string, required: false }
+      - { label: Degree, name: degree, widget: string }
+      - { label: Year, name: year, widget: string }
+      - { label: Abstract, name: abstract, widget: text }
+      - { label: PDF Upload, name: pdf_upload, widget: file, required: false }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  - name: pages
+    label: Pages
+    label_singular: Page
+    folder: content/pages
+    create: true
+    slug: "{{slug}}"
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: About, name: about, widget: markdown, required: false }
+      - { label: Mission, name: mission, widget: markdown, required: false }
+      - { label: Vision, name: vision, widget: markdown, required: false }
+      - { label: Publication Ethics, name: publication_ethics, widget: markdown, required: false }
+      - { label: Editorial Policy, name: editorial_policy, widget: markdown, required: false }
+      - { label: Peer Review Policy, name: peer_review_policy, widget: markdown, required: false }
+      - { label: Open Access Policy, name: open_access_policy, widget: markdown, required: false }
+      - { label: Privacy Policy, name: privacy_policy, widget: markdown, required: false }
+      - { label: Terms, name: terms, widget: markdown, required: false }
+
+  - name: homepage
+    label: Homepage
+    delete: false
+    editor:
+      preview: true
+    files:
+      - name: homepage
+        label: Homepage
+        file: content/homepage/index.md
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - { label: Subheading, name: subheading, widget: text, required: false }
+              - { label: Background Image, name: background_image, widget: image, required: false }
+              - { label: CTA Text, name: cta_text, widget: string, required: false }
+              - { label: CTA Link, name: cta_link, widget: string, required: false }
+          - label: Featured Articles
+            name: featured_articles
+            widget: relation
+            collection: publications
+            search_fields: [title]
+            value_field: "{{slug}}"
+            display_fields: [title]
+            multiple: true
+            required: false
+          - label: Announcements
+            name: announcements
+            widget: list
+            required: false
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Message, name: message, widget: text }
+              - { label: Link, name: link, widget: string, required: false }
+              - { label: Date, name: date, widget: datetime, required: false }
+          - label: Statistics
+            name: statistics
+            widget: list
+            required: false
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Value, name: value, widget: string }
+              - { label: Icon, name: icon, widget: string, required: false }
+          - label: Testimonials
+            name: testimonials
+            widget: list
+            required: false
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Role, name: role, widget: string, required: false }
+              - { label: Photo, name: photo, widget: image, required: false }
+              - { label: Quote, name: quote, widget: text }
+
+  - name: site_settings
+    label: Site Settings
+    delete: false
+    editor:
+      preview: true
+    files:
+      - name: settings
+        label: Site Settings
+        file: content/settings/site.md
+        fields:
+          - { label: Site Name, name: site_name, widget: string }
+          - { label: Tagline, name: tagline, widget: string, required: false }
+          - { label: Email, name: email, widget: string }
+          - { label: Phone, name: phone, widget: string, required: false }
+          - { label: Address, name: address, widget: text, required: false }
+          - { label: Logo, name: logo, widget: image }
+          - { label: Favicon, name: favicon, widget: image, required: false }
+          - label: Social Links
+            name: social_links
+            widget: list
+            required: false
+            fields:
+              - { label: Platform, name: platform, widget: string }
+              - { label: URL, name: url, widget: string }
+          - label: Footer
+            name: footer
+            widget: object
+            required: false
+            fields:
+              - { label: Footer Text, name: footer_text, widget: text, required: false }
+              - label: Footer Links
+                name: footer_links
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
+          - { label: Copyright, name: copyright, widget: string, required: false }
+          - label: Analytics
+            name: analytics
+            widget: object
+            required: false
+            fields:
+              - { label: Google Analytics ID, name: google_analytics_id, widget: string, required: false }
+              - { label: Cloudflare Analytics Token, name: cloudflare_analytics_token, widget: string, required: false }
+
+  - name: menus
+    label: Menus
+    delete: false
+    editor:
+      preview: true
+    files:
+      - name: main_menu
+        label: Main Menu
+        file: content/menus/main.md
+        fields:
+          - label: Menu Items
+            name: menu_items
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: URL, name: url, widget: string }
+              - label: Submenu
+                name: submenu
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
+      - name: footer_menu
+        label: Footer Menu
+        file: content/menus/footer.md
+        fields:
+          - label: Menu Items
+            name: menu_items
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: URL, name: url, widget: string }
