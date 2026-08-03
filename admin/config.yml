@@ -5,138 +5,417 @@ backend:
   base_url: https://geopolis.pages.dev
   auth_endpoint: /api/auth
 
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
+publish_mode: editorial_workflow
+
+site_url: https://geopolis.pages.dev
+display_url: https://geopolis.pages.dev
+logo_url: /images/logo.png
+
+media_folder: assets/uploads
+public_folder: /assets/uploads
+
+media_library:
+  name: default
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
 
 collections:
-  - name: "articles"
-  label: "Publications"
-  folder: "content/articles"
-  create: true
-  slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-  summary: "{{title}} — {{author}} ({{category}})"
+   - name: "articles"
+    label: "Publications"
+    label_singular: "Publication"
+    folder: "content/articles"
+    create: true
+    delete: true
+    preview_path: "journal/{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} | {{category}} | {{date}}"
 
-  fields:
+    fields:
 
-    # -----------------------------
-    # BASIC INFORMATION
-    # -----------------------------
-    - { label: "Title", name: "title", widget: "string" }
+      # =====================================================
+      # BASIC DETAILS
+      # =====================================================
 
-    - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+      - label: "Title"
+        name: "title"
+        widget: "string"
 
-    - { label: "Abstract", name: "abstract", widget: "text" }
+      - label: "Subtitle"
+        name: "subtitle"
+        widget: "string"
+        required: false
 
-    - label: "Publication Type"
-      name: "category"
-      widget: "select"
-      options:
-        - Research Papers
-        - Essays
-        - Book Reviews
-        - Policy Briefs
-        - Working Papers
-        - Conference Papers
-        - Dissertations
+      - label: "Abstract"
+        name: "abstract"
+        widget: "text"
 
-    - { label: "Discipline", name: "discipline", widget: "string", required: false }
+      - label: "Publication Type"
+        name: "category"
+        widget: "select"
+        options:
+          - Research Papers
+          - Essays
+          - Book Reviews
+          - Policy Briefs
+          - Working Papers
+          - Conference Papers
+          - Dissertations
 
-    - { label: "Language", name: "language", widget: "string", default: "English" }
+      - label: "Discipline"
+        name: "discipline"
+        widget: "select"
+        options:
+          - Political Science
+          - International Relations
+          - Public Administration
+          - Economics
+          - Sociology
+          - History
+          - Geography
+          - Law
+          - Philosophy
+          - Anthropology
+          - Psychology
+          - Environmental Studies
+          - Public Policy
+          - Security Studies
+          - Development Studies
+          - Other
 
-    - { label: "Keywords", name: "keywords", widget: "list", required: false }
+      - label: "Language"
+        name: "language"
+        widget: "select"
+        default: English
+        options:
+          - English
+          - Hindi
+          - French
+          - Spanish
+          - Other
 
-    - { label: "Publication Date", name: "date", widget: "datetime" }
+      - label: "Keywords"
+        name: "keywords"
+        widget: "list"
 
-    # -----------------------------
-    # AUTHORS
-    # -----------------------------
-    - label: "Authors"
-      name: "authors"
-      widget: "list"
-      summary: "{{fields.name}}"
-      fields:
+      - label: "Publication Date"
+        name: "date"
+        widget: "datetime"
 
-        - { label: "Full Name", name: "name", widget: "string" }
+      - label: "Featured"
+        name: "featured"
+        widget: "boolean"
+        default: false
 
-        - { label: "Institution", name: "institution", widget: "string", required: false }
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
 
-        - { label: "Department", name: "department", widget: "string", required: false }
+      # =====================================================
+      # AUTHORS
+      # =====================================================
 
-        - { label: "Country", name: "country", widget: "string", required: false }
+      - label: "Authors"
+        name: "authors"
+        widget: "list"
+        summary: "{{fields.name}}"
 
-        - { label: "Email", name: "email", widget: "string", required: false }
+        fields:
 
-        - { label: "ORCID", name: "orcid", widget: "string", required: false }
+          - label: "Full Name"
+            name: "name"
+            widget: "string"
 
-        - { label: "Biography", name: "bio", widget: "text", required: false }
+          - label: "Institution"
+            name: "institution"
+            widget: "string"
+            required: false
 
-    # -----------------------------
-    # JOURNAL DETAILS
-    # -----------------------------
-    - { label: "DOI", name: "doi", widget: "string", required: false }
+          - label: "Department"
+            name: "department"
+            widget: "string"
+            required: false
 
-    - { label: "Volume", name: "volume", widget: "string", required: false }
+          - label: "Country"
+            name: "country"
+            widget: "string"
+            required: false
 
-    - { label: "Issue", name: "issue", widget: "string", required: false }
+          - label: "Email"
+            name: "email"
+            widget: "string"
+            required: false
 
-    - { label: "Pages", name: "pages", widget: "string", required: false }
+          - label: "ORCID"
+            name: "orcid"
+            widget: "string"
+            required: false
 
-    - { label: "ISSN", name: "issn", widget: "string", required: false }
+          - label: "Biography"
+            name: "bio"
+            widget: "text"
+            required: false
 
-    # -----------------------------
-    # FEATURED IMAGE
-    # -----------------------------
-    - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+          - label: "Photo"
+            name: "photo"
+            widget: "image"
+            required: false
 
-    - { label: "Image Caption", name: "featured_image_caption", widget: "string", required: false }
+      # =====================================================
+      # JOURNAL DETAILS
+      # =====================================================
 
-    - { label: "Image Credit", name: "image_credit", widget: "string", required: false }
+      - label: "DOI"
+        name: "doi"
+        widget: "string"
+        required: false
 
-    # -----------------------------
-    # FILES
-    # -----------------------------
-    - { label: "PDF File", name: "pdf", widget: "file", required: false }
+      - label: "ISSN"
+        name: "issn"
+        widget: "string"
+        required: false
 
-    - label: "Supplementary Files"
-      name: "supplementary_files"
-      widget: "list"
-      required: false
-      field:
-        { label: "File", name: "file", widget: "file" }
+      - label: "Volume"
+        name: "volume"
+        widget: "string"
+        required: false
 
-    # -----------------------------
-    # ARTICLE CONTENT
-    # -----------------------------
-    - label: "Article"
-      name: "body"
-      widget: "markdown"
+      - label: "Issue"
+        name: "issue"
+        widget: "string"
+        required: false
 
-    # -----------------------------
-    # REFERENCES
-    # -----------------------------
-    - { label: "References", name: "references", widget: "text", required: false }
+      - label: "Pages"
+        name: "pages"
+        widget: "string"
+        required: false
 
-    - { label: "Footnotes", name: "footnotes", widget: "text", required: false }
+      - label: "Reading Time"
+        name: "reading_time"
+        widget: "string"
+        required: false
 
-    - { label: "Acknowledgements", name: "acknowledgements", widget: "text", required: false }
+      # =====================================================
+      # FEATURED MEDIA
+      # =====================================================
 
-    # -----------------------------
-    # SEO
-    # -----------------------------
-    - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - label: "Featured Image"
+        name: "featured_image"
+        widget: "image"
+        required: false
 
-    - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - label: "Featured Image Alt Text"
+        name: "featured_image_alt"
+        widget: "string"
+        required: false
 
-    - { label: "Canonical URL", name: "canonical_url", widget: "string", required: false }
+      - label: "Image Caption"
+        name: "featured_image_caption"
+        widget: "text"
+        required: false
 
-    # -----------------------------
-    # PLATFORM
-    # -----------------------------
-    - { label: "Featured Article", name: "featured", widget: "boolean", default: false }
+      - label: "Image Credit"
+        name: "featured_image_credit"
+        widget: "string"
+        required: false
 
-    - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      # =====================================================
+      # GALLERY
+      # =====================================================
 
-    - { label: "Reading Time", name: "reading_time", widget: "string", required: false }
+      - label: "Gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+
+        fields:
+
+          - label: "Image"
+            name: "image"
+            widget: "image"
+
+          - label: "Caption"
+            name: "caption"
+            widget: "string"
+            required: false
+
+          - label: "Credit"
+            name: "credit"
+            widget: "string"
+            required: false
+
+      # =====================================================
+      # PDF & SUPPLEMENTARY FILES
+      # =====================================================
+
+      - label: "Full PDF"
+        name: "pdf"
+        widget: "file"
+        required: false
+
+      - label: "Supplementary Files"
+        name: "supplementary_files"
+        widget: "list"
+        required: false
+
+        fields:
+
+          - label: "Title"
+            name: "title"
+            widget: "string"
+
+          - label: "File"
+            name: "file"
+            widget: "file"
+
+      # =====================================================
+      # ARTICLE CONTENT
+      # =====================================================
+
+      - label: "Article"
+        name: "body"
+        widget: "markdown"
+
+      # =====================================================
+      # REFERENCES
+      # =====================================================
+
+      - label: "References"
+        name: "references"
+        widget: "text"
+        required: false
+
+      - label: "Footnotes"
+        name: "footnotes"
+        widget: "text"
+        required: false
+
+      - label: "Acknowledgements"
+        name: "acknowledgements"
+        widget: "text"
+        required: false
+
+      - label: "Funding"
+        name: "funding"
+        widget: "text"
+        required: false
+
+      - label: "Conflict of Interest"
+        name: "conflict_of_interest"
+        widget: "text"
+        required: false
+
+      # =====================================================
+      # SEO
+      # =====================================================
+
+      - label: "SEO Title"
+        name: "seo_title"
+        widget: "string"
+        required: false
+
+      - label: "SEO Description"
+        name: "seo_description"
+        widget: "text"
+        required: false
+
+      - label: "Canonical URL"
+        name: "canonical_url"
+        widget: "string"
+        required: false
+
+      - label: "Open Graph Image"
+        name: "og_image"
+        widget: "image"
+        required: false
+
+      # =====================================================
+      # INTERNAL
+      # =====================================================
+
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        default: Published
+        options:
+          - Draft
+          - Under Review
+          - Accepted
+          - Published
+          - Archived
+
+  - name: "authors"
+    label: "Authors"
+    folder: "content/authors"
+    create: true
+    slug: "{{slug}}"
+
+    fields:
+
+      - {label: "Full Name", name: "name", widget: "string"}
+
+      - {label: "Photo", name: "photo", widget: "image", required: false}
+
+      - {label: "Designation", name: "designation", widget: "string", required: false}
+
+      - {label: "Institution", name: "institution", widget: "string"}
+
+      - {label: "Department", name: "department", widget: "string", required: false}
+
+      - {label: "Country", name: "country", widget: "string"}
+
+      - {label: "ORCID", name: "orcid", widget: "string", required: false}
+
+      - {label: "Google Scholar", name: "scholar", widget: "string", required: false}
+
+      - {label: "ResearchGate", name: "researchgate", widget: "string", required: false}
+
+      - {label: "Email", name: "email", widget: "string", required: false}
+
+      - {label: "Research Interests", name: "interests", widget: "list", required: false}
+
+      - {label: "Biography", name: "bio", widget: "markdown"}
+
+  - name: "editorial_board"
+    label: "Editorial Board"
+    folder: "content/editorial-board"
+    create: true
+    slug: "{{slug}}"
+
+    fields:
+
+      - {label: "Name", name: "name", widget: "string"}
+
+      - {label: "Role", name: "role", widget: "string"}
+
+      - {label: "Institution", name: "institution", widget: "string"}
+
+      - {label: "Country", name: "country", widget: "string"}
+
+      - {label: "Photo", name: "photo", widget: "image", required: false}
+
+      - {label: "Biography", name: "bio", widget: "markdown", required: false}
+
+  - name: "news"
+    label: "News"
+    folder: "content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+
+    fields:
+
+      - {label: "Title", name: "title", widget: "string"}
+
+      - {label: "Date", name: "date", widget: "datetime"}
+
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+
+      - {label: "Summary", name: "summary", widget: "text"}
+
+      - {label: "Body", name: "body", widget: "markdown"}
 
 - name: "team"
   label: "Team Members"
