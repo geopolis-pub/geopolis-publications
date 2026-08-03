@@ -136,8 +136,23 @@ collections:
       - label: Body
         name: body
         widget: markdown
-        buttons: [bold, italic, strikethrough, code, link, heading-one, heading-two, heading-three, heading-four, quote, code-block, bulleted-list, numbered-list]
-        editor_components: [image, image-upload, table, code-block, blockquote, horizontal-rule, heading, youtube-embed, callout, footnote]
+        buttons:
+          - bold
+          - italic
+          - strikethrough
+          - code
+          - link
+          - heading-one
+          - heading-two
+          - heading-three
+          - heading-four
+          - quote
+          - bulleted-list
+          - numbered-list
+        editor_components:
+          - image
+          - code-block
+          - table
         minimal: false
 
   - name: authors
