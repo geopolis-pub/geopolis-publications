@@ -10,28 +10,57 @@ public_folder: "/images/uploads"
 
 collections:
   - name: "articles"
-    label: "Publications"
-    folder: "content/articles"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Author", name: "author", widget: "string", default: "GEOPOLIS Editorial Collective" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Category", name: "category", widget: "select", options: ["Research Papers", "Essays", "Book Reviews", "Policy Briefs", "Working Papers", "Conference Papers", "Dissertations"] }
-      - { label: "Tags", name: "tags", widget: "string", required: false }
-      - { label: "PDF URL", name: "pdf", widget: "string", required: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+  label: "Publications"
+  folder: "content/articles"
+  create: true
+  slug: "{{slug}}"
 
-  - name: "team"
-    label: "Team Members"
-    folder: "content/team"
-    create: true
-    slug: "{{name}}"
-    fields:
-      - { label: "Name", name: "name", widget: "string" }
-      - { label: "Role", name: "role", widget: "string" }
-      - { label: "Course & Year", name: "course_year", widget: "string", required: false }
-      - { label: "Research Interests", name: "research_interests", widget: "string", required: false }
-      - { label: "Bio", name: "bio", widget: "text", required: false }
-      - { label: "Image", name: "image", widget: "image", required: false }
+  fields:
+    - { label: "Title", name: "title", widget: "string" }
+
+    - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+
+    - { label: "Abstract", name: "abstract", widget: "text", required: false }
+
+    - { label: "Author", name: "author", widget: "string", default: "GEOPOLIS Editorial Collective" }
+
+    - { label: "Affiliation", name: "affiliation", widget: "string", required: false }
+
+    - { label: "Date", name: "date", widget: "datetime" }
+
+    - label: "Category"
+      name: "category"
+      widget: "select"
+      options:
+        - Research Papers
+        - Essays
+        - Book Reviews
+        - Policy Briefs
+        - Working Papers
+        - Conference Papers
+        - Dissertations
+
+    - { label: "Keywords", name: "keywords", widget: "list", required: false }
+
+    - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+
+    - { label: "Featured Image Caption", name: "featured_image_caption", widget: "string", required: false }
+
+    - { label: "PDF File", name: "pdf", widget: "file", required: false }
+
+    - { label: "Featured Article", name: "featured", widget: "boolean", default: false }
+
+    - { label: "Body", name: "body", widget: "markdown" }
+
+- name: "team"
+  label: "Team Members"
+  folder: "content/team"
+  create: true
+  slug: "{{name}}"
+  fields:
+    - { label: "Name", name: "name", widget: "string" }
+    - { label: "Role", name: "role", widget: "string" }
+    - { label: "Course & Year", name: "course_year", widget: "string", required: false }
+    - { label: "Research Interests", name: "research_interests", widget: "string", required: false }
+    - { label: "Bio", name: "bio", widget: "text", required: false }
+    - { label: "Image", name: "image", widget: "image", required: false }
