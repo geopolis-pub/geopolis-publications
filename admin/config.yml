@@ -1,0 +1,53 @@
+backend:
+  name: github
+  repo: geopolis-pub/geopolis-publications
+  branch: main
+  squash_merges: true
+media_folder: public/images/uploads
+public_folder: /images/uploads
+publish_mode: editorial_workflow
+collections:
+  - name: articles
+    label: Articles
+    folder: content/articles
+    create: true
+    slug: '{{slug}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Excerpt, name: excerpt, widget: text, required: false }
+      - { label: Author, name: author, widget: string }
+      - { label: Category, name: category, widget: string }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Cover image, name: image, widget: image, required: false }
+      - { label: Publication date, name: date, widget: datetime }
+      - { label: Body, name: body, widget: markdown }
+  - name: research
+    label: Research and Dissertations
+    folder: content/dissertations
+    create: true
+    slug: '{{slug}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Author, name: author, widget: string, required: false }
+      - { label: Date, name: date, widget: datetime, required: false }
+      - { label: Body, name: body, widget: markdown }
+  - name: events
+    label: Events
+    folder: content/events
+    create: true
+    slug: '{{slug}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime, required: false }
+      - { label: Description, name: body, widget: markdown }
+  - name: authors
+    label: Authors
+    folder: content/team
+    create: true
+    slug: '{{slug}}'
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Institution, name: institution, widget: string, required: false }
+      - { label: Affiliation, name: affiliation, widget: string, required: false }
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Biography, name: body, widget: markdown, required: false }
