@@ -1,0 +1,75 @@
+backend:
+  name: github
+  repo: geopolis-pub/geopolis-publications
+  branch: main
+  base_url: https://geopolis.pages.dev
+  auth_endpoint: api/auth
+  squash_merges: true
+publish_mode: editorial_workflow
+media_folder: public/images/uploads
+public_folder: /images/uploads
+site_url: https://geopolis.pages.dev
+collections:
+  - name: articles
+    label: Articles
+    folder: content/articles
+    create: true
+    delete: false
+    preview_path: article.html?c=articles&f={{filename}}
+    slug: '{{slug}}'
+    summary: '{{title}} — {{author}} — {{date}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Excerpt, name: excerpt, widget: text, required: false }
+      - { label: Author, name: author, widget: string }
+      - { label: Category, name: category, widget: select, options: [India, World, Geopolitics, International Relations, Security, Society, Analysis, Research, General] }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Cover image, name: image, widget: image, required: false }
+      - { label: Publication date, name: date, widget: datetime, format: YYYY-MM-DDTHH:mm:ssZ }
+      - { label: Updated date, name: updated, widget: datetime, required: false, format: YYYY-MM-DDTHH:mm:ssZ }
+      - { label: Featured, name: featured, widget: boolean, default: false, required: false }
+      - { label: SEO title, name: seo_title, widget: string, required: false }
+      - { label: SEO description, name: seo_description, widget: text, required: false }
+      - { label: Body, name: body, widget: markdown }
+  - name: research
+    label: Research and Dissertations
+    folder: content/dissertations
+    create: true
+    delete: false
+    preview_path: article.html?c=research&f={{filename}}
+    slug: '{{slug}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Excerpt, name: excerpt, widget: text, required: false }
+      - { label: Author, name: author, widget: string, required: false }
+      - { label: Category, name: category, widget: string, default: Research, required: false }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Cover image, name: image, widget: image, required: false }
+      - { label: Date, name: date, widget: datetime, required: false, format: YYYY-MM-DDTHH:mm:ssZ }
+      - { label: Body, name: body, widget: markdown }
+  - name: events
+    label: Events
+    folder: content/events
+    create: true
+    delete: false
+    slug: '{{slug}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime, required: false, format: YYYY-MM-DDTHH:mm:ssZ }
+      - { label: Location, name: location, widget: string, required: false }
+      - { label: Registration URL, name: registration, widget: string, required: false }
+      - { label: Body, name: body, widget: markdown }
+  - name: authors
+    label: Authors
+    folder: content/team
+    create: true
+    delete: false
+    preview_path: authors.html
+    slug: '{{slug}}'
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Institution, name: institution, widget: string, required: false }
+      - { label: Affiliation, name: affiliation, widget: string, required: false }
+      - { label: Areas of interest, name: areas, widget: list, required: false }
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Biography, name: body, widget: markdown, required: false }
