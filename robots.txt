@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://geopolis.pages.dev/sitemap.xml
