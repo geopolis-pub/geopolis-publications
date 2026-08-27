@@ -3,7 +3,7 @@ backend:
   repo: geopolis-pub/geopolis-publications
   branch: main
   base_url: https://geopolis.pages.dev
-  auth_endpoint: api/auth
+  auth_endpoint: /api/auth
   squash_merges: true
 publish_mode: editorial_workflow
 media_folder: public/images/uploads
@@ -20,17 +20,33 @@ collections:
     summary: '{{title}} — {{author}} — {{date}}'
     fields:
       - { label: Title, name: title, widget: string }
-      - { label: Excerpt, name: excerpt, widget: text, required: false }
+      - { label: Excerpt, name: excerpt, widget: text, required: false, hint: Short summary shown on cards and social previews }
       - { label: Author, name: author, widget: string }
       - { label: Category, name: category, widget: select, options: [India, World, Geopolitics, International Relations, Security, Society, Analysis, Research, General] }
       - { label: Tags, name: tags, widget: list, required: false }
-      - { label: Cover image, name: image, widget: image, required: false }
-      - { label: Publication date, name: date, widget: datetime, format: YYYY-MM-DDTHH:mm:ssZ }
-      - { label: Updated date, name: updated, widget: datetime, required: false, format: YYYY-MM-DDTHH:mm:ssZ }
-      - { label: Featured, name: featured, widget: boolean, default: false, required: false }
-      - { label: SEO title, name: seo_title, widget: string, required: false }
-      - { label: SEO description, name: seo_description, widget: text, required: false }
-      - { label: Body, name: body, widget: markdown }
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+        media_library: { config: { multiple: false } }
+        hint: Main image shown on the homepage, article cards and article header
+      - { label: Cover Image Alt Text, name: image_alt, widget: string, required: false, hint: Describe the image for accessibility and SEO }
+      - label: Additional Gallery Images
+        name: gallery
+        widget: list
+        required: false
+        field: { label: Image, name: image, widget: image }
+        hint: Optional extra images that can be referenced inside the article body
+      - { label: Publication Date, name: date, widget: datetime, format: 'YYYY-MM-DDTHH:mm:ssZ' }
+      - { label: Updated Date, name: updated, widget: datetime, required: false, format: 'YYYY-MM-DDTHH:mm:ssZ' }
+      - { label: Featured on Homepage, name: featured, widget: boolean, default: false, required: false }
+      - { label: SEO Title, name: seo_title, widget: string, required: false }
+      - { label: SEO Description, name: seo_description, widget: text, required: false }
+      - label: Body
+        name: body
+        widget: markdown
+        media_library: { config: { multiple: false } }
+        hint: Use the image button in the toolbar to insert images anywhere in the article
   - name: research
     label: Research and Dissertations
     folder: content/dissertations
@@ -38,14 +54,20 @@ collections:
     delete: false
     preview_path: article.html?c=research&f={{filename}}
     slug: '{{slug}}'
+    summary: '{{title}} — {{author}} — {{date}}'
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Excerpt, name: excerpt, widget: text, required: false }
       - { label: Author, name: author, widget: string, required: false }
       - { label: Category, name: category, widget: string, default: Research, required: false }
       - { label: Tags, name: tags, widget: list, required: false }
-      - { label: Cover image, name: image, widget: image, required: false }
-      - { label: Date, name: date, widget: datetime, required: false, format: YYYY-MM-DDTHH:mm:ssZ }
+      - { label: Cover Image, name: image, widget: image, required: false }
+      - { label: Cover Image Alt Text, name: image_alt, widget: string, required: false }
+      - { label: Date, name: date, widget: datetime, required: false, format: 'YYYY-MM-DDTHH:mm:ssZ' }
+      - { label: Updated Date, name: updated, widget: datetime, required: false, format: 'YYYY-MM-DDTHH:mm:ssZ' }
+      - { label: Featured, name: featured, widget: boolean, default: false, required: false }
+      - { label: SEO Title, name: seo_title, widget: string, required: false }
+      - { label: SEO Description, name: seo_description, widget: text, required: false }
       - { label: Body, name: body, widget: markdown }
   - name: events
     label: Events
@@ -53,9 +75,11 @@ collections:
     create: true
     delete: false
     slug: '{{slug}}'
+    summary: '{{title}} — {{date}}'
     fields:
       - { label: Title, name: title, widget: string }
-      - { label: Date, name: date, widget: datetime, required: false, format: YYYY-MM-DDTHH:mm:ssZ }
+      - { label: Cover Image, name: image, widget: image, required: false }
+      - { label: Date, name: date, widget: datetime, required: false, format: 'YYYY-MM-DDTHH:mm:ssZ' }
       - { label: Location, name: location, widget: string, required: false }
       - { label: Registration URL, name: registration, widget: string, required: false }
       - { label: Body, name: body, widget: markdown }
@@ -66,10 +90,24 @@ collections:
     delete: false
     preview_path: authors.html
     slug: '{{slug}}'
+    summary: '{{name}} — {{affiliation}}'
     fields:
       - { label: Name, name: name, widget: string }
       - { label: Institution, name: institution, widget: string, required: false }
-      - { label: Affiliation, name: affiliation, widget: string, required: false }
-      - { label: Areas of interest, name: areas, widget: list, required: false }
-      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Affiliation / Role, name: affiliation, widget: string, required: false }
+      - { label: Areas of Interest, name: areas, widget: list, required: false }
+      - label: Photo
+        name: photo
+        widget: image
+        required: false
+        hint: Square headshot recommended, at least 400x400px
+      - { label: Email, name: email, widget: string, required: false }
+      - label: Social Links
+        name: social
+        widget: object
+        required: false
+        fields:
+          - { label: Twitter / X, name: twitter, widget: string, required: false }
+          - { label: LinkedIn, name: linkedin, widget: string, required: false }
+          - { label: Personal Website, name: website, widget: string, required: false }
       - { label: Biography, name: body, widget: markdown, required: false }
