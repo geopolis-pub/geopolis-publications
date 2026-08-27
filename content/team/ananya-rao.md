@@ -1,12 +1,12 @@
 ---
-name: "Dr. Ananya Rao"
-institution: "Institute for Strategic Studies"
-affiliation: "Senior Research Fellow"
+name: Dr. Ananya Rao
+institution: Institute for Strategic Studies
+affiliation: Senior Research Fellow
 areas:
   - Geopolitics
   - Indo-Pacific Affairs
   - Maritime Security
-photo: "/images/uploads/sample-author.svg"
+photo: ""
 published: true
 ---
 
